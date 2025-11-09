@@ -1,0 +1,181 @@
+Documentación de la API para Postman
+=====================================
+
+URL Base (Ejemplo con ngrok): https://superlunary-ethical-celia.ngrok-free.dev
+URL Base (Local): http://127.0.0.1:8000
+
+**Nota:** En Postman, puedes configurar la URL base en una variable de entorno, por ejemplo `{{URL_BASE}}`.
+
+---
+
+### 1. Listar todos los Códigos
+
+- **Método:** GET
+- **URL:** `{{URL_BASE}}/api/codigos/`
+- **Descripción:** Recupera una lista de todos los códigos existentes.
+- **Body:** Ninguno
+- **Respuesta Exitosa (200 OK):**
+  ```json
+  [
+      {
+          "id": 1,
+          "codigo": "ABCDE123",
+          "nombre_completo": "Juan Perez",
+          "habilitado": true,
+          "usado": false
+      },
+      {
+          "id": 2,
+          "codigo": "XYZ09876",
+          "nombre_completo": "Maria Lopez",
+          "habilitado": true,
+          "usado": true
+      }
+  ]
+  ```
+
+---
+
+### 2. Crear un nuevo Código
+
+- **Método:** POST
+- **URL:** `{{URL_BASE}}/api/codigos/`
+- **Descripción:** Crea un nuevo registro de código.
+- **Headers:**
+  - `Content-Type`: `application/json`
+- **Body (Ejemplo):**
+  ```json
+  {
+      "codigo": "NUEVO456",
+      "nombre_completo": "Carlos Garcia",
+      "habilitado": true
+  }
+  ```
+  *Nota: No es necesario enviar `id` ni `usado` (por defecto es `false`).*
+- **Respuesta Exitosa (201 Created):**
+  ```json
+  {
+      "id": 3,
+      "codigo": "NUEVO456",
+      "nombre_completo": "Carlos Garcia",
+      "habilitado": true,
+      "usado": false
+  }
+  ```
+
+---
+
+### 3. Obtener un Código específico
+
+- **Método:** GET
+- **URL:** `{{URL_BASE}}/api/codigos/{codigo}/`
+- **Descripción:** Recupera los detalles de un código específico usando su valor de `codigo`.
+- **Ejemplo de URL:** `{{URL_BASE}}/api/codigos/ABCDE123/`
+- **Body:** Ninguno
+- **Respuesta Exitosa (200 OK):**
+  ```json
+  {
+      "id": 1,
+      "codigo": "ABCDE123",
+      "nombre_completo": "Juan Perez",
+      "habilitado": true,
+      "usado": false
+  }
+  ```
+
+---
+
+### 4. Actualizar un Código (Completo)
+
+- **Método:** PUT
+- **URL:** `{{URL_BASE}}/api/codigos/{codigo}/`
+- **Descripción:** Actualiza todos los campos de un código existente. Debes enviar todos los campos.
+- **Ejemplo de URL:** `{{URL_BASE}}/api/codigos/NUEVO456/`
+- **Headers:**
+  - `Content-Type`: `application/json`
+- **Body (Ejemplo):**
+  ```json
+  {
+      "codigo": "NUEVO456",
+      "nombre_completo": "Carlos Garcia Rodriguez",
+      "habilitado": false,
+      "usado": true
+  }
+  ```
+- **Respuesta Exitosa (200 OK):**
+  ```json
+  {
+      "id": 3,
+      "codigo": "NUEVO456",
+      "nombre_completo": "Carlos Garcia Rodriguez",
+      "habilitado": false,
+      "usado": true
+  }
+  ```
+
+---
+
+### 5. Actualizar un Código (Parcial)
+
+- **Método:** PATCH
+- **URL:** `{{URL_BASE}}/api/codigos/{codigo}/`
+- **Descripción:** Actualiza uno o más campos de un código existente. Ideal para marcar un código como "usado".
+- **Ejemplo de URL:** `{{URL_BASE}}/api/codigos/NUEVO456/`
+- **Headers:**
+  - `Content-Type`: `application/json`
+- **Body (Ejemplo para marcar como usado):**
+  ```json
+  {
+      "usado": true
+  }
+  ```
+- **Body (Ejemplo para cambiar nombre):**
+  ```json
+  {
+      "nombre_completo": "C. Garcia"
+  }
+  ```
+- **Respuesta Exitosa (200 OK):**
+  ```json
+  {
+      "id": 3,
+      "codigo": "NUEVO456",
+      "nombre_completo": "C. Garcia",
+      "habilitado": false,
+      "usado": true
+  }
+  ```
+
+---
+
+### 6. Eliminar un Código
+
+- **Método:** DELETE
+- **URL:** `{{URL_BASE}}/api/codigos/{codigo}/`
+- **Descripción:** Elimina un código existente.
+- **Ejemplo de URL:** `{{URL_BASE}}/api/codigos/NUEVO456/`
+- **Body:** Ninguno
+- **Respuesta Exitosa (204 No Content):**
+  *No se devuelve contenido en el cuerpo de la respuesta.*
+
+---
+
+### 7. Filtrar por código
+
+- **Método:** GET
+- **URL:** `{{URL_BASE}}/api/codigos/?codigo={valor_codigo}`
+- **Descripción:** Busca un código por su valor exacto a través de un parámetro de consulta.
+- **Ejemplo de URL:** `{{URL_BASE}}/api/codigos/?codigo=ABCDE123`
+- **Body:** Ninguno
+- **Respuesta Exitosa (200 OK):**
+  ```json
+  [
+    {
+        "id": 1,
+        "codigo": "ABCDE123",
+        "nombre_completo": "Juan Perez",
+        "habilitado": true,
+        "usado": false
+    }
+  ]
+  ```
