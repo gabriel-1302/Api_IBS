@@ -9,7 +9,7 @@ class Codigo(models.Model):
     nombre_completo = models.CharField(max_length=255, blank=True, null=True)
     funcion = models.CharField(max_length=7, choices=FUNCION_CHOICES, default='primera', blank=False, null=False)
     habilitado = models.BooleanField(default=True)
-    usado = models.BooleanField(default=False)
+    entradas_disponibles = models.IntegerField(default=2)
 
     def __str__(self):
         return self.codigo
